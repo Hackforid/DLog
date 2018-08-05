@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
 
 object AppLog: BaseAndroidLogger() {
     init {
-        appendCallerToMessage = true
+        showCallerInMessage = true
     }
     override fun getTag(): String {
         return "aaaa"

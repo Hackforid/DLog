@@ -16,63 +16,63 @@ abstract class BaseLogger: ITaggedLogger {
     /**
      * show caller stack in msg
      */
-    var appendCallerToMessage = false
+    var showCallerInMessage = false
 
 
     abstract fun getLogger(): ILogger
 
     override fun v(tag: String, msg: String) {
         whenEnable(ILogger.VERBOSE) {
-            getLogger().v(tag, fillMsg(msg))
+            getLogger().v(tag, formatMsg(msg))
         }
     }
 
     override fun v(tag: String, msg: String, tr: Throwable) {
         whenEnable(ILogger.VERBOSE) {
-            getLogger().v(tag, fillMsg(msg), tr)
+            getLogger().v(tag, formatMsg(msg), tr)
         }
     }
 
     override fun d(tag: String, msg: String) {
         whenEnable(ILogger.DEBUG) {
-            getLogger().d(tag, fillMsg(msg))
+            getLogger().d(tag, formatMsg(msg))
         }
     }
 
     override fun d(tag: String, msg: String, tr: Throwable) {
         whenEnable(ILogger.DEBUG) {
-            getLogger().d(tag, fillMsg(msg), tr)
+            getLogger().d(tag, formatMsg(msg), tr)
         }
     }
 
     override fun i(tag: String, msg: String) {
         whenEnable(ILogger.INFO) {
-            getLogger().i(tag, fillMsg(msg))
+            getLogger().i(tag, formatMsg(msg))
         }
     }
 
     override fun i(tag: String, msg: String, tr: Throwable) {
         whenEnable(ILogger.INFO) {
-            getLogger().i(tag, fillMsg(msg), tr)
+            getLogger().i(tag, formatMsg(msg), tr)
         }
     }
 
     override fun w(tag: String, msg: String) {
         whenEnable(ILogger.WARN) {
-            getLogger().w(tag, fillMsg(msg))
+            getLogger().w(tag, formatMsg(msg))
         }
     }
 
     override fun w(tag: String, msg: String, tr: Throwable) {
         whenEnable(ILogger.WARN) {
-            getLogger().w(tag, fillMsg(msg), tr)
+            getLogger().w(tag, formatMsg(msg), tr)
         }
     }
 
     override fun w(tag: String, tr: Throwable) {
         whenEnable(ILogger.WARN) {
-            if (appendCallerToMessage) {
-                getLogger().w(tag, fillMsg(""), tr)
+            if (showCallerInMessage) {
+                getLogger().w(tag, formatMsg(""), tr)
             } else {
                 getLogger().w(tag, tr)
             }
@@ -81,13 +81,13 @@ abstract class BaseLogger: ITaggedLogger {
 
     override fun e(tag: String, msg: String) {
         whenEnable(ILogger.ERROR) {
-            getLogger().e(tag, fillMsg(msg))
+            getLogger().e(tag, formatMsg(msg))
         }
     }
 
     override fun e(tag: String, msg: String, tr: Throwable) {
         whenEnable(ILogger.ERROR) {
-            getLogger().e(tag, fillMsg(msg), tr)
+            getLogger().e(tag, formatMsg(msg), tr)
         }
     }
 
@@ -97,8 +97,8 @@ abstract class BaseLogger: ITaggedLogger {
         }
     }
 
-    private fun fillMsg(msg: String) : String {
-        if (appendCallerToMessage) {
+    private fun formatMsg(msg: String) : String {
+        if (showCallerInMessage) {
             return "[${getCallStack()}] >>\n$msg"
         } else {
             return msg
